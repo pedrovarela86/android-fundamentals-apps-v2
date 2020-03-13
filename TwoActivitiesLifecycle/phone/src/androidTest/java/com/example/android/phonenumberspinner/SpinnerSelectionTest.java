@@ -20,7 +20,17 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -32,4 +42,13 @@ public class SpinnerSelectionTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
+    @Test
+    public void iterateSpinnerItems() {
+        String[] array = mActivityRule.getActivity().getResources().getStringArray(R.array.labels_array);
+        for (String label : array) {
+            onView(withId(R.id.label_spinner)).perform(click());
+            onData(is(label)).perform(click());
+            onView(withId(R.id.text_phonelabel)).check(matches(withText(containsString(label))));
+        }
+    }
 }
