@@ -1,1 +1,1 @@
-include ':app', ':phone', ':score'
+include ':app', ':phone', ':score', ':recyclerview'
