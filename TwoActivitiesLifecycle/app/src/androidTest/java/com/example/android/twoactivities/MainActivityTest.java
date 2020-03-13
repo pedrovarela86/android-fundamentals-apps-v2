@@ -52,4 +52,10 @@ public class MainActivityTest {
         onView(withId(R.id.text_message)).check(matches(withText("this is a test.")));
     }
 
+    @Test
+    public void failingTest() {
+        onView(withId(R.id.editText_main)).perform(typeText("this is a test."));
+        onView(withId(R.id.button_main)).perform(click());
+        onView(withId(R.id.text_message)).check(matches(withText("this will fail.")));
+    }
 }
