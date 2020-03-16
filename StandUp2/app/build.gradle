@@ -27,6 +27,14 @@ android {
     viewBinding{
         enabled = true
     }
+    compileOptions {
+        sourceCompatibility kotlin_version
+        targetCompatibility kotlin_version
+    }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
 
 }
 
