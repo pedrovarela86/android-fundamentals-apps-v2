@@ -10,15 +10,13 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.View
-import android.widget.CompoundButton
-import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+
     private lateinit var notificationManager: NotificationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +24,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val notifyIntent = Intent(this, AlarmReceiver::class.java)
+
+        val alarmUp = PendingIntent.getBroadcast(
+            this,
+            NOTIFICATION_ID,
+            notifyIntent,
+            PendingIntent.FLAG_NO_CREATE
+        ) != null
+
+        switchButton.isChecked = alarmUp
+
         val pendingIntent = PendingIntent.getBroadcast(
             this,
             NOTIFICATION_ID,
@@ -34,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         )
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        toggleButton.setOnCheckedChangeListener { _, isChecked ->
+        switchButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 val alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP
                 val repeatIntent = AlarmManager.INTERVAL_FIFTEEN_MINUTES
@@ -51,15 +59,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel()
         }
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
