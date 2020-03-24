@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         ComponentName serviceName = new ComponentName(getPackageName(),
                 NotificationJobService.class.getName());
+        
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
                 .setRequiredNetworkType(selectedNetworkOption)
                 .setRequiresDeviceIdle(mDeviceIdleSwitch.isChecked())
